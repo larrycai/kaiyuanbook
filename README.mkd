@@ -1,0 +1,17 @@
+# Introduction
+
+this is just a template and guideline on how to write manual in markdown format.
+
+
+### Chapters
+It is plan to cover
+
+* Chapter 1: Introduction, What is markdown, what is included in this manual
+
+### License
+  The license is under ![](http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png), see [CC BY NC ND 3.0](http://creativecommons.org/licenses/by-nc-nd/3.0/) for more
+
+### Way of working
+
+If you are interesting, contact me larry.caiyu@gmail.com
+ 

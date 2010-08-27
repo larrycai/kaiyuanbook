@@ -1,0 +1,12 @@
+target/
+velocity.log
+cobertura.ser
+.project
+.classpath
+.settings/
+*~
+pom.xml~
+.svn/*
+release.properties
+*.releaseBackup
+~*

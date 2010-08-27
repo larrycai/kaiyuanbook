@@ -1,0 +1,10 @@
+currently lots of information are hardcoded.
+
+the blueprint css are copied locally
+
+todo list
+
+* add blueprint inside
+* update img reference to local during convert
+
+
