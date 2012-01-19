@@ -1,9 +1,0 @@
-Preface
-=======
-
-this is the template to show how to generate html/pdf book easily in markdown format
-
-tools
------
-markdown2 - python script
-balsqmiq - book cover and all images inside
