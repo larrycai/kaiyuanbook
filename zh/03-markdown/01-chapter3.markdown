@@ -1,4 +1,5 @@
-# Markdown #
+# 用Markdown来写 #
+
 ## 介绍 ##
 
 Markdown格式的普及要归功于[Github](github.com)和[StackOverflow](http://stackoverflow.com/)。因为它们越来越流行，它们支持markdown格式也越来越流行。
@@ -20,4 +21,6 @@ Markdown格式的普及要归功于[Github](github.com)和[StackOverflow](http:/
 
 ## 参考 ##
  1. Pro Git: <http://progit.org/>
+ 
+
  

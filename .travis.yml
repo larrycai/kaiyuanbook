@@ -1,0 +1,9 @@
+sudo apt-get install pandoc texlive-xelatex texlive-latex-recommended texlive-latex-extra
+sudo apt-get install ttf-arphic-gbsn00lp ttf-arphic-ukai ttf-wqy-microhei ttf-wqy-zenhei
+
+rvm:
+  - 1.8.7
+script: ./makepdfs zh
+notifications:
+  email:
+    - larry.caiyu@gmail.com

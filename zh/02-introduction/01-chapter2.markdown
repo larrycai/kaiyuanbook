@@ -60,7 +60,7 @@ $ sudo apt-get install ttf-wqy-microhei ttf-wqy-zenhei # 文泉驿字体
 
     $ ./makepdfs zh	
     
-怎么样，打开看看，很漂亮[^1]了吧。
+怎么样，打开看看，很漂亮[^21]了吧。
 
 ## 自己试试 ##
 一定要做，搜索一下，改掉一些内容，再运行一遍。
@@ -91,6 +91,6 @@ $ sudo apt-get install ttf-wqy-microhei ttf-wqy-zenhei # 文泉驿字体
 ## 参考 ##
  1. Pro Git: <http://progit.org/>
  
- [^1]: 颜色我自己调的，喜欢吗？这是脚注的演示。
+ [^21]: 颜色我自己调的，喜欢吗？这是脚注的演示。
 
  
