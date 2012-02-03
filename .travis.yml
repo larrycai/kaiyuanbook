@@ -2,7 +2,7 @@ before_script:
   - sudo apt-get install pandoc
   - uname -a
   - sudo apt-get install ttf-arphic-gbsn00lp ttf-arphic-ukai ttf-wqy-microhei ttf-wqy-zenhei
-#  texlive-xelatex texlive-latex-recommended texlive-latex-extra
+  - sudo apt-get texlive-xetex texlive-latex-recommended texlive-latex-extra
 #  - sudo apt-get install ttf-arphic-gbsn00lp ttf-arphic-ukai ttf-wqy-microhei ttf-wqy-zenhei
 
 rvm:
