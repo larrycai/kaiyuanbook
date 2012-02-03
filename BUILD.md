@@ -18,7 +18,7 @@ Ubuntu Platform Oneiric (11.10) is used mainly due to pandoc.
 Though texlive 2011 can be installed separately, the default one texlive 2009 from Ubuntu repository is good enough so far. 
 
 	$ sudo apt-get install pandoc
-    $ sudo apt-get texlive-xelatex
+    $ sudo apt-get texlive-xetex
     $ sudo apt-get texlive-latex-recommended # main packages
     $ sudo apt-get texlive-latex-extra # package titlesec
 	
