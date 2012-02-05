@@ -44,7 +44,7 @@ Ruby的[rdiscount](https://github.com/rtomayko/rdiscount)帮你从markdown转成
     
 ~~~~~~~~~~ {.bash}
 $ sudo apt-get install pandoc
-$ sudo apt-get texlive-xelatex
+$ sudo apt-get texlive-xetex
 $ sudo apt-get texlive-latex-recommended # 主要的Latex包
 $ sudo apt-get texlive-latex-extra # titlesec包，先不用知道
 ~~~~~~~~~~~~~~~~~~~~

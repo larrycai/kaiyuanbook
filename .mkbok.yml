@@ -1,0 +1,5 @@
+mkbok:
+  output: pdf
+  language: zh
+  name: kaiyuanbook
+  license: ccbyncnd30

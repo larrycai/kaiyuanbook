@@ -6,5 +6,6 @@ before_script:
   - sudo apt-get install texlive-xetex texlive-latex-recommended texlive-latex-extra
 
 rvm:
-  - 1.8.7
+  - 1.9.3
+#  - 1.8.7 , there is bug for regex
 script: chmod +x makepdfs ./latex/makepdf ; ls -al ; ./makepdfs zh
