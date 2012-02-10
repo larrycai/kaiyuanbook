@@ -4,6 +4,7 @@ before_script:
   - uname -a 
   - sudo apt-get install ttf-arphic-gbsn00lp ttf-arphic-ukai ttf-wqy-microhei ttf-wqy-zenhei
   - sudo apt-get install texlive-xetex texlive-latex-recommended texlive-latex-extra
+  - gem install mkbok
 
 rvm:
   #- 1.9.3
