@@ -17,7 +17,7 @@ Ubuntu Platform Oneiric (11.10) is used mainly due to pandoc.
 
 Though texlive 2011 can be installed separately, the default one texlive 2009 from Ubuntu repository is good enough so far. 
 
-	$ sudo apt-get install pandoc
+    $ sudo apt-get install pandoc
     $ sudo apt-get texlive-xetex
     $ sudo apt-get texlive-latex-recommended # main packages
     $ sudo apt-get texlive-latex-extra # package titlesec
@@ -30,6 +30,11 @@ You need to install related fonts for Chinese, fortunately they exist in ubuntu 
 Then it should work perfectly
 
 	$ ./makepdfs zh
+
+If you are fans of ruby, you can even try 
+
+    $ gem install mkbok
+    $ mkbok --lang=zh 
     
 Just remind you, some [extra pandoc markdown format](http://johnmacfarlane.net/pandoc/README.html) is used inside this book:
 
