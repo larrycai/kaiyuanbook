@@ -1,7 +1,7 @@
 ---
-  :name: kaiyuanbook
-  :build: pdf
-  :lang: zh
-  :license: ccbyncnd30
-  :config: latex/config.yml
-  :template: latex/template.tex
+  name: kaiyuanbook
+  build: pdf
+  lang: zh
+  license: ccbyncnd30
+  config: latex/config.yml
+  template: latex/template.tex
