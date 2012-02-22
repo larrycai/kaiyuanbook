@@ -1,12 +1,14 @@
 # Software Development Book Contents#
 
+[![Build Status](https://secure.travis-ci.org/larrycai/kaiyuanbook.png)](http://travis-ci.org/larrycai/kaiyuanbook)
+
 This is the book for how to write opensource books, it covers markdown,pandoc,latex
 
 Hope you enjoy it, I hope it helps you learn better software development. 
 
 Please check BUILD.md for how to making ebooks by yourself, 
 
-Original contribution is to [Pro Git](http://github.com/progit/progit) 
+credit to [Pro Git](http://github.com/progit/progit) 
 
 #Errata#
 

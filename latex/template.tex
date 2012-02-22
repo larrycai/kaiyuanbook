@@ -1,8 +1,10 @@
 \documentclass[a4paper]{book}
+\usepackage{tocbibind} % for toc show inside pdf
 \usepackage[
 	%urlbordercolor = {1 1 1},
 	%linkbordercolor = {1 1 1},
 	%citebordercolor = {1 1 1},
+    bookmarksnumbered, % add bookmark number in pdf output
 	urlcolor = blue,
 	colorlinks = true,
 	citecolor = black,
@@ -18,6 +20,7 @@
 \usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
 
 \usepackage{titlesec} % texlive-latex-extra package
+\usepackage[titletoc]{appendix} % this is used for \appendices
 
 \definecolor{colorchapter}{RGB}{70,130,180}     % SteelBlue
 \definecolor{colorsection}{RGB}{95,158,160}    % CadetBlue
@@ -136,17 +139,33 @@
 \renewcommand{\contentsname}{<%= config['con'] %>}
 \renewcommand{\figurename}{<%= config['fig'] %>}
 \renewcommand{\tablename}{<%= config['tab'] %>}
+\renewcommand{\appendixname}{<%= config['appendix'] %>}
 
 % chapter 
 \makeatletter
 \def\@makechapterhead#1{%
-
   \vspace*{50\p@}%
   {\parindent \z@ \raggedright \normalfont
     \ifnum \c@secnumdepth >\m@ne
       \if@mainmatter
-        \color{colorchapter}\normalfont\huge\bfseries \prechap \thechapter \postchap
-		\par\nobreak
+        \color{colorchapter}\normalfont\huge\bfseries\prechap{ }\thechapter{ }\postchap
+        \par\nobreak
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \color{colorchapter}\normalfont\Huge\bfseries #1\par\nobreak
+    \vskip 40\p@
+  }}  
+ 
+% this is for non-normal chapter like Acknownledgement, Preface, Contents  
+\def\@makeschapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \color{colorchapter}\normalfont\huge\bfseries \thechapter{ }
+        \par\nobreak
         \vskip 20\p@
       \fi
     \fi
@@ -159,15 +178,16 @@
 \linespread{1.3}
 
 \begin{document}
-\frontmatter
 \maketitle
 \thispagestyle{empty}
 \setcounter{tocdepth}{4}
+
+\frontmatter
+<%= preface %>
 \tableofcontents\newpage\thispagestyle{empty}
 
 % customize header & footer
 
-\mainmatter
 \fancyhf{}
 \fancyhead[LE]{\color{colorheader}\quad\small\textbf\thepage\quad\quad\small\leftmark}
 \fancyhead[RO]{\color{colorheader}\small\rightmark\quad\quad\small\textbf\thepage\quad}
@@ -179,5 +199,11 @@
 %\renewcommand{\headrule}{\color{red}} % conflict with headrulewidth
 \pagestyle{fancy}
 
+\mainmatter
 <%= latex %>
+
+\appendices
+\renewcommand{\prechap}{\appendixname}
+\renewcommand{\postchap}{}
+<%= appendix %>
 \end{document}

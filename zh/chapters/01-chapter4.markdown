@@ -1,4 +1,6 @@
 # 了解Latex的知识 #
+还没写完！！！
+
 Tex是由
 
 LaTeX（LATEX，音译“拉泰赫”）是一种基于TeX的排版系统，由美国计算机学家莱斯利·兰伯特（Leslie Lamport）在20世纪80年代初期开发，利用这种格式，即使使用者没有排版和程序设计的知识也可以充分发挥由TeX所提供的强大功能，能在几天，甚至几小时内生成很多具有书籍质量的印刷品。
@@ -236,30 +238,6 @@ $TEXLIVE/$VERSION/texmf-dist/doc/latex/titlesec
 ~~~~~~~~~~
 
 上面的页眉设置示例的排版效果即本文档页眉效果.
-
-## 中文字体 ##
-首先，我用的是Linux环境并且选用的是**UTF-8**的编码，而不是GBK，否则在github上显示会有问题，不了解这方面的朋友自己找找资料吧，够讲个把小时的。
-
-在产生PDF时，一般建议内嵌中文字体的，但是真正能用的中文字体实际很少，极大多数是有版权的：
-
- * [文鼎](http://www.arphic.com.tw/)开放的四套字体（简报宋、细上海宋、简中楷、中楷），没有一点版权问题，是大部分的中文Linux的缺省安装。
- * [文泉驿](http://wenq.org/)的几套字体（微米黑、正黑、点阵宋体）是开放但是GPL性质的，所以不是随便可以商用的。
- * Adobe有两套开放字体（宋体、黑体）我认为是可以随便用的，忘了在哪里看到这个解释的了。
-
-可以看看[Ubuntu免费中文字体](http://wiki.ubuntu.org.cn/免费中文字体)的介绍有个认识。
-
-## 怎么选择对应字体 ##
-一般缺省中文正文字体是宋体、细明体，对应英文Serif类的英文字体：Georgia、Times New Roman等。
-
-标题和重要内容可以选楷体和黑体，对应英文Sans Serif类的英文字体：Arial、Tahoma、Verdana等
-
-技术文章中常见的代码典型的等宽体用黑体，对应英文Monospace类的英文字体：Courier New等
-
-所以对应的在[我的中文Latex配置](https://github.com/larrycai/sdcamp/blob/master/latex/config.yml)中可选的是：
-
- * font：文鼎的简报宋、细上海宋，文泉驿的点阵宋体，Adobe的宋体
- * bold: 文鼎的简中楷、中楷，文泉驿的微米黑、正黑，Adobe的黑体
- * mono: 文泉驿的微米黑、正黑，Adobe的黑体
 
 ## 如何安装字体 ##
 我用的试验环境是Ubuntu Oneiric (11.10），大部分可以直接从Ubuntu源中下载了。

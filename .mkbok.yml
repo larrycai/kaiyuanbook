@@ -1,7 +1,8 @@
 ---
   name: kaiyuanbook
-  build: pdf,epub,html
+  build: epub,pdf,html
   lang: zh
   license: ccbyncnd30
   config: latex/config.yml
   template: latex/template.tex
+  
