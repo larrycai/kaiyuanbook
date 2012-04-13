@@ -1,4 +1,4 @@
-# 基础知识和10分钟写出第一本开源书 #
+# 基础知识:10分钟写出第一本书 #
 ## 先从Pro Git说起 ##
 
 如果你了解Git，或者想了解Git。那么你就应该知道[Pro Git](http://progit.org/)，它是Git的书中写得最好的一本（至少是之一），可是你是否知道它有网络中文版，而且能在iPad上极其漂亮得阅读。并且是免费的，不是盗版的免费！如果你想要最新的，你甚至可以自己生成它。哈哈，我就是这么干的。
@@ -14,11 +14,11 @@ Scott只负责英文版，其他许许多多语言的翻译都是社区贡献的
 这本书不仅仅开源了内容，使用的技术也是开源的。让我们看看他是怎么做的。
 
 ### Markdown原始文件 ###
-首先书的内容是用Markdown格式写的。Markdown格式的普及要归功于[Github](github.com)和[StackOverflow](http://stackoverflow.com/)。因为它们越来越流行，它们支持Markdown格式也越来越流行。这里要赞一个的是，国内的[图灵社区](http://www.ituring.com.cn/)也支持Markdown，用起来超级方便。
+首先书的内容是用Markdown格式写的。Markdown格式的普及要归功于[Github](github.com)和[StackOverflow](http://stackoverflow.com/)。因为它们越来越流行，它们支持和使用的Markdown格式也越来越流行。这里要赞一个的是，国内的[图灵社区](http://www.ituring.com.cn/)也支持Markdown，用起来超级方便。
 
-简单来说，Markdown格式的文件看着像一般的文本文件，里面只是加了很少的格式标记，因此看文本文件也不影响理解，这种格式也有很多工具帮你去转化，而且很容易自动化解决。并且这些技术大多数是开源或免费的。
+简单来说，Markdown格式的文件看着像一般的文本文件，里面只是加了很少的格式标记，因此直接看Markdown的文本文件也不影响理解，这种格式也有很多工具帮你去转化，而且很容易自动化解决。并且这些技术大多数是开源或免费的。
 
-松本行弘在他的Ruby书中说的好，想象一下几十年后，你是否还能找到软件来打开你的Word老格式的文档，没有那些软件，你的文档也就没用了。文本文件就没有这个问题。
+松本行弘在他的Ruby书中说的好，想象一下几十年后，你是否还能找到软件来打开你的Word老格式的文档，没有软件支持，你的文档也就难以使用了。文本文件就没有这个问题。
 
 你可以直接看一下【Pro Git】的[“第一章 介绍” 的Markdown原始文件](https://raw.github.com/progit/progit/master/zh/01-introduction/01-chapter1.markdown)，顺便看看github自动生成的简单[“第一章 介绍” 的html](https://github.com/progit/progit/blob/master/zh/01-introduction/01-chapter1.markdown)。
 
@@ -26,7 +26,10 @@ Scott只负责英文版，其他许许多多语言的翻译都是社区贡献的
 ### PDF格式 ###
 为了能达到出版的质量，Latex是一个常用的格式，PDF也能很容易地转换出来，有关Latex，自己看看参考链接学习吧。
 
-[Pandoc](http://johnmacfarlane.net/pandoc/)能帮着从Markdown转换出Latex格式，然后再用[TexLive](http://www.tug.org/texlive/)软件中的`xelatex`转成PDF格式。
+[Pandoc](http://johnmacfarlane.net/pandoc/)能帮着从Markdown转换出Latex格式，然后再用[TexLive](http://www.tug.org/texlive/)软件中的`xelatex`转成PDF格式。  
+
+![从makedown到pdf](0101pdf.jpg)
+
 
 ### Epub/Mobi格式 ###
 Ruby的[rdiscount](https://github.com/rtomayko/rdiscount)能帮你从markdown转成html格式，然后有[Calibre](calibre)附带的命令`ebook-convert`生成最终的`.mobi` (Kindle) 和 `.epub` (iPad)。
