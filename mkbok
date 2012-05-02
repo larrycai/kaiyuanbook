@@ -5,77 +5,104 @@ require 'optparse'
 require 'fileutils'
 require 'erb'
 require 'yaml'
+require 'pathname'
 
 include FileUtils
 
-options = {
-    "build"=> "pdf",
-    "lang" => "zh",
-    "config"     => "latex/config.yml",
-    "template"   => "latex/template.tex"
-}
-CONFIG_FILE = File.join('.mkbok.yml')
-if File.exists? CONFIG_FILE
-    config_options = YAML.load_file(CONFIG_FILE)
-    options.merge!(config_options)
-end
+def main()
+    options = {
+        "build"=> "pdf",
+        "lang" => "zh",
+        "config"        => "latex/config.yml",
+        "template"      => "latex/template.tex",
+        "chapter-files" => "*/*.markdown",
+        "appendix-files"=> "*appendix/*.markdown",
+        "jeykll"        => false
+    }
+    config_file = File.join('.mkbok.yml')
+    if File.exists? config_file
+        config_options = YAML.load_file(config_file)
+        options.merge!(config_options)
+    end
 
-option_parser = OptionParser.new do |opts|
-    executable_name = File.basename($PROGRAM_NAME)
-    opts.banner = "make ebooks from markdown plain text
-    Usage: #{executable_name} [options]    
-    "
-    # Create a switch
-    opts.on("-b","--build FORMAT","build format:epub,pdf,html. seperated by ','") do |format|
-        formatOptions = format.split(",")
-        formatOptions.each do | fmt |
-            # puts fmt
-            unless ["pdf","epub","html"].include?(fmt)
-                raise ArgumentError,"FORMAT must be one of 'pdf,epub,html' format"
+    option_parser = OptionParser.new do |opts|
+        executable_name = File.basename($PROGRAM_NAME)
+        opts.banner = "make ebooks from markdown plain text
+        Usage: #{executable_name} [options]    
+        "
+        # Create a switch
+        opts.on("-b","--build FORMAT","build format:epub,pdf,html. seperated by ','") do |format|
+            formatOptions = format.split(",")
+            formatOptions.each do | fmt |
+                # puts fmt
+                unless ["pdf","epub","html"].include?(fmt)
+                    raise ArgumentError,"FORMAT must be one of 'pdf,epub,html' format"
+                end
             end
+            options["build"] = format
         end
-        options["build"] = format
-    end
-    opts.on("-d","--debug","debug") do 
-        options["debug"] = true
-    end
-    # Create a flag
-    opts.on("-l","--lang LANG","language selection") do |lang|
-        unless lang=="zh" or lang=="en"
-            raise ArgumentError,"LANG must be in zh or en"
+        opts.on("-d","--debug","debug") do 
+            options["debug"] = true
         end
-        options["lang"] = lang
-    end
-    opts.on("-c","--config CONFIG","config file") do |config|
-        unless File.exists? config
-            raise ArgumentError,"config file \"#{config}\" doesn't exist"
+        # Create a flag
+        opts.on("-l","--lang LANG","language selection") do |lang|
+            unless lang=="zh" or lang=="en"
+                raise ArgumentError,"LANG must be in zh or en"
+            end
+            options["lang"] = lang
         end
-        options["config"] = config
-    end
-    opts.on("-t","--template template.tex","latex template file") do |template|
-        unless File.exists? template
-            raise ArgumentError,"template file \"#{template}\" doesn't exist"
+        opts.on("-c","--config CONFIG","config file") do |config|
+            unless File.exists? config
+                raise ArgumentError,"config file \"#{config}\" doesn't exist"
+            end
+            options["config"] = config
         end
-        options["template"] = template
-    end
-    opts.on("-n","--name book name","book name") do |name|
-        unless name =~ /^[a-zA-Z0-9]+$/
-            raise ArgumentError,"name should be [a-zA-Z0-9]"
+        opts.on("-t","--template template.tex","latex template file") do |template|
+            unless File.exists? template
+                raise ArgumentError,"template file \"#{template}\" doesn't exist"
+            end
+            options["template"] = template
         end
-        options["name"] = name
+        opts.on("-n","--name book name","book name") do |name|
+            unless name =~ /^[a-zA-Z0-9]+$/
+                raise ArgumentError,"name should be [a-zA-Z0-9]"
+            end
+            options["name"] = name
+        end
+        opts.on("-g","--generate project","project name") do |name|
+            unless name =~ /^[a-zA-Z0-9]+$/
+                raise ArgumentError,"name should be [a-zA-Z0-9]"
+            end
+            options["command"] = "generate"
+            options["name"] = name
+        end        
+    end
+
+    option_parser.parse!
+
+    #$here = File.expand_path(File.dirname(__FILE__))
+    $here = Dir.getwd
+    $root = File.join($here)
+    $outDir = File.join($root, 'pdf')
+    options["name"] = File.basename(Dir.getwd) unless options["name"]
+    options["outputformat"] = options["build"].split(',')
+
+    puts options.inspect if options["debug"]
+    
+    if options["command"] == "generate"
+        generate_project(options["name"])
+        exit
+    end
+    
+    if options["outputformat"].include?("pdf")
+        #puts "pdf"
+        generate_pdf(options)
+    end
+    options["outputformat"].delete("pdf")
+    if options["outputformat"].count>0
+        generate_ebook(options)
     end
 end
-
-option_parser.parse!
-
-#$here = File.expand_path(File.dirname(__FILE__))
-$here = Dir.getwd
-$root = File.join($here)
-$outDir = File.join($root, 'pdf')
-options["name"] = File.basename(Dir.getwd) unless options["name"]
-options["outputformat"] = options["build"].split(',')
-
-puts options.inspect if options["debug"]
 
 def figures(&block)
 	begin
@@ -116,20 +143,22 @@ end
 
 def pre_pandoc(string, config)
 	replace(string) do
-                s /\#\#\#\#\# (.*?) \#\#\#\#\#/, 'PARASECTION: \1'
+        s /\#\#\#\#\# (.*?) \#\#\#\#\#/, 'PARASECTION: \1'
 		# Pandoc discards #### subsubsections #### - this hack recovers them
 		s /\#\#\#\# (.*?) \#\#\#\#/, 'SUBSUBSECTION: \1'
 		
+        # convert div figures to normal markdown format
+        # http://johnmacfarlane.net/pandoc/README.html
+        s /^<div class=\"figures\"> <img src=\"..\/figures\/(.*)\".*<\/div>/, '![](figures/\1)\ '
+        # "
 		# Turns URLs into clickable links
 		s /\`(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\`/, '<\1>'
 		s /(\n\n)\t(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\n([^\t]|\t\n)/, '\1<\2>\1'
-
+        # `
 		# Process figures
 		s /Insert\s18333fig\d+\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, 'FIG: \1'
 	end
 end
-
-# `
 
 def post_pandoc(string, config, lang, chapter=true)
 	replace(string) do
@@ -185,6 +214,9 @@ def post_pandoc(string, config, lang, chapter=true)
             else
                 s /(^\\item)/m,'\item[*]'
             end
+            
+            # change the width to standard .6 width 
+            s /\\includegraphics/m, '\\includegraphics[width=\\imgwidth]'
         end
         
         if chapter != true
@@ -195,6 +227,10 @@ def post_pandoc(string, config, lang, chapter=true)
 		
 	end
 end
+
+def check_jekyll(str)
+    str.lines.to_a[4..-3].join
+end 
 
 def generate_pdf(options)
     $config = YAML.load_file(options["config"])
@@ -216,10 +252,17 @@ def generate_pdf(options)
             config = $config['default'].merge($config[lang]) rescue $config['default']
 
             puts "#{lang}:"
-            puts "\tParsing preface markdown... "        
-            prefacemarkdown = Dir["#$root/#{lang}/*preface/*.markdown"].sort.map do |file|
+            
+            prefacefiles = "#$root/#{lang}/#{options['preface-files']}"
+
+            puts "\tParsing preface markdown... #{prefacefiles} "        
+            prefacemarkdown = Dir["#{prefacefiles}"].sort.map do |file|
                 puts "\t =>"+file
-                File.read(file)
+                if options["jeykll"]
+                    check_jekyll(File.read(file))
+                else
+                    File.read(file)
+                end
             end.join("\n\n")
 
             preface = IO.popen('pandoc -p --no-wrap -f markdown -t latex', 'w+') do |pipe|
@@ -228,17 +271,17 @@ def generate_pdf(options)
                 post_pandoc(pipe.read, config, lang, false)
             end
             
-            puts "\n\tParsing main chapters markdown... "
-            found = false
-            chaptersmarkdown = Dir["#$root/#{lang}/*chapters/*.markdown"].sort.map do |file|
-                found = true
+            chapterfiles = "#$root/#{lang}/#{options['chapter-files']}"
+            
+            puts "\n\tParsing main chapters markdown... #{chapterfiles} "
+            chaptersmarkdown = Dir["#{chapterfiles}"].sort{|a,b| [Integer(a[/\d+/]),a]<=>[Integer(b[/\d+/]),b]}.map do |file|
                 puts "\t =>"+file
-                File.read(file)
+                if options["jeykll"]
+                    check_jekyll(File.read(file))
+                else
+                    File.read(file)
+                end
             end.join("\n\n")
-            chaptersmarkdown = Dir["#$root/#{lang}/*/*.markdown"].sort.map do |file|
-                puts "\t =>"+file
-                File.read(file)
-            end.join("\n\n") unless found
             # puts "done"
             
             latex = IO.popen('pandoc -p --no-wrap -f markdown -t latex', 'w+') do |pipe|
@@ -248,11 +291,17 @@ def generate_pdf(options)
             end
             # puts "done"
             
-            puts "\n\tParsing appendix markdown... "        
-            appendixmarkdown = Dir["#$root/#{lang}/*appendix/*.markdown"].sort.map do |file|
-                puts "\t =>"+file        
-                File.read(file)
-            end.join("\n\n")
+            appendixfiles = "#$root/#{lang}/#{options['appendix-files']}"
+            
+            puts "\n\tParsing appendix markdown... #{appendixfiles}  "        
+            appendixmarkdown = Dir["#{appendixfiles}"].sort.map do |file|
+                puts "\t =>"+file
+                if options["jeykll"]
+                    check_jekyll(File.read(file))
+                else
+                    File.read(file)
+                end
+            end.join("\n\n") 
 
             appendix = IO.popen('pandoc -p --no-wrap -f markdown -t latex', 'w+') do |pipe|
                 pipe.write(pre_pandoc(appendixmarkdown, config))
@@ -312,7 +361,14 @@ end
 
 def generate_ebook(options)
     name = File.basename(Dir.getwd)
-
+    
+    missing = ['pandoc'].reject{|command| command_exists?(command)}
+    unless missing.empty?
+        puts "Missing dependencies: #{missing.join(', ')}."
+        puts "Install these and try again."
+        exit
+    end
+    
     puts " "
     puts "Will generate ebooks [#{options["outputformat"].join(',')}] for the following languages #{options["lang"]}"
     puts " "
@@ -343,6 +399,8 @@ def generate_ebook(options)
         options["outputformat"].each do | format |
             system('pandoc',
                '--standalone', 
+               '--toc',
+               '--template=template.html',
                '--epub-metadata', 'epub/metadata.xml',
                '--epub-stylesheet', 'epub/book.css', # this doesn't work 
                '--output', "#{name}.#{lang}.#{format}",
@@ -354,12 +412,41 @@ def generate_ebook(options)
     end
 end
 
-if options["outputformat"].include?("pdf")
-    #puts "pdf"
-    generate_pdf(options)
+# http://stackoverflow.com/questions/5074327/most-appropriate-way-to-generate-directory-of-files-from-directory-of-template-f
+def generate_project(project)
+    destination = project
+    source = File.dirname(__FILE__)+"/../templates"
+    #puts "generate project \"#{destination}\" from source \"#{source}\""
+    FileUtils.rmtree(destination)
+    FileUtils.mkdir_p(destination)
+    sourceroot=Pathname.new(source)
+    sourcerealpath = sourceroot.cleanpath
+    puts "generate project \"#{destination}\" from source \"#{sourcerealpath}\""     
+    Dir.glob(File.join(source, '**/*')).each do |path|
+      pathname = Pathname.new(path)
+      relative = pathname.relative_path_from(sourceroot)
+      #puts "parent:" , sourceroot
+      #puts "relative:", relative
+      if File.directory?(pathname) 
+        destdir = File.join(destination, relative.dirname)
+        #puts "create #{destdir} "
+        FileUtils.mkdir_p(destdir) 
+      else
+          FileUtils.mkdir_p(File.join(destination, relative.dirname))
+          if pathname.extname == '.erb'
+            #puts pathname.basename.sub(/\.erb$/, '')
+            #puts destination
+            #puts File.join(destination,pathname.basename.sub(/\.erb$/, ''))
+            File.open(File.join(destination,pathname.basename.sub(/\.erb$/, '')), 'w') do |file|
+              file.puts(ERB.new(File.read(path)).result(binding))
+            end   
+          else
+            print pathname.cleanpath, " => ", File.join(destination, relative.dirname),"\n"
+            FileUtils.cp(pathname, File.join(destination, relative.dirname))
+          end
+      end
+    end
 end
-options["outputformat"].delete("pdf")
-if options["outputformat"].count>0
-    generate_ebook(options)
-end
+
+main
 

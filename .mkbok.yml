@@ -5,4 +5,6 @@
   license: ccbyncnd30
   config: latex/config.yml
   template: latex/template.tex
-  
+  preface-files: preface/*.markdown
+  chapter-files: chapters/*.markdown
+  appendix-files: appendix/*.markdown 
