@@ -1,6 +1,6 @@
 ---
   name: kaiyuanbook
-  build: epub,pdf,html
+  build: pdf
   lang: zh
   license: ccbyncnd30
   config: latex/config.yml

@@ -49,20 +49,16 @@ Ruby的[rdiscount](https://github.com/rtomayko/rdiscount)能帮你从markdown转
 ### PDF格式 ###
 生成PDF是一个比较复杂的东西，[pandoc](http://johnmacfarlane.net/pandoc/)用Ubuntu库里1.8.x版本，[TexLive](http://www.tug.org/texlive/)用缺省Ubuntu源里的2009版也够了。当然也可下载最新的[TexLive](http://www.tug.org/texlive/)包安装，并配置到搜索路径中。
     
-~~~~~~~~~~ {.bash}
-$ sudo apt-get install ruby1.9.1
-$ sudo apt-get install pandoc
-$ sudo apt-get install texlive-xetex
-$ sudo apt-get install texlive-latex-recommended # 主要的Latex包
-$ sudo apt-get install texlive-latex-extra # titlesec包，先不用知道
-~~~~~~~~~~~~~~~~~~~~
+	$ sudo apt-get install ruby1.9.1
+	$ sudo apt-get install pandoc
+	$ sudo apt-get install texlive-xetex
+	$ sudo apt-get install texlive-latex-recommended # 主要的Latex包
+	$ sudo apt-get install texlive-latex-extra # titlesec包，先不用知道
 
 因为是中文PDF，需要把字体嵌入在文件中，因此需要安装字体文件，幸运的是在源里有不错的字体。
 
-~~~~~~~~~~ {.bash}
-$ sudo apt-get install ttf-arphic-gbsn00lp ttf-arphic-ukai # 文鼎字体
-$ sudo apt-get install ttf-wqy-microhei ttf-wqy-zenhei # 文泉驿字体
-~~~~~~~~~~ 
+	$ sudo apt-get install ttf-arphic-gbsn00lp ttf-arphic-ukai # 文鼎字体
+	$ sudo apt-get install ttf-wqy-microhei ttf-wqy-zenhei # 文泉驿字体
     
 现在你就可以用`mkbok`命令生成Pdf文件了，`mkbok`会自动调用Pandoc和Latex工具生成Pdf、Html、Epub格式。
 

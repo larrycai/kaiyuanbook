@@ -39,19 +39,15 @@ Pandoc软件会把Markdown文件转换成Latex格式，然后套上上面的模�
 ## 如何使用Markdown写书 ##
 现在可以看看结构了。
 
-~~~~~~~~~ {.bash}
-$ find zh
-zh/preface # 序和前言
-zh/chapters # 正文
-zh/appendix # 附录
-~~~~~~~~~~~~
+	$ find zh
+	zh/preface # 序和前言
+	zh/chapters # 正文
+	zh/appendix # 附录
 
 ### 标准章节 ###
 每一章的第一行基本就是章节名字，应该只出现一次
 
-~~~~~~~
-# 用Markdown来写 #
-~~~~~~~
+	# 用Markdown来写 #
 
 其他的小章节用`##`和`###`表示，最好不要有更多的层次。
 
@@ -98,8 +94,3 @@ zh/appendix # 附录
  * font：文鼎的简报宋、细上海宋，文泉驿的点阵宋体，Adobe的宋体
  * bold: 文鼎的简中楷、中楷，文泉驿的微米黑、正黑，Adobe的黑体
  * mono: 文泉驿的微米黑、正黑，Adobe的黑体
-
- 
- 
-
- 
