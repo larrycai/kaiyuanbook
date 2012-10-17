@@ -12,7 +12,9 @@ before_script:
 rvm:
   - 1.9.3
 script: 
-  - mkbok -v ; mkbok
+#  - mkbok -v ; mkbok
+  - chmod +x mkbok
+  - ./mkbok
   
 after_script:
   - ls -al
