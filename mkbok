@@ -150,7 +150,11 @@ def pre_pandoc(string, config)
         # convert div figures to normal markdown format
         # http://johnmacfarlane.net/pandoc/README.html
         s /^<div class=\"figures\"> <img src=\"..\/figures\/(.*)\".*<\/div>/, '![](figures/\1)\ '
-        # "
+        
+        # ![alt](../figures/LASO-tiny210-433.jpg) => ![alt](figures/LASO-tiny210-433.jpg)
+        s /^!\[(.*)\]\([\.\/]*\/(figures\/.*)\)/, '![\1](\2)'
+        # " 
+        
 		# Turns URLs into clickable links
 		s /\`(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\`/, '<\1>'
 		s /(\n\n)\t(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\n([^\t]|\t\n)/, '\1<\2>\1'

@@ -1,12 +1,26 @@
+language: ruby
 before_script:
+  - uname -a 
+  - lsb_release -a
+  - pandoc -v
   - sudo apt-get install pandoc
 # here you can check os environment, it is ubuntu natty  
-  - uname -a 
   - sudo apt-get install ttf-arphic-gbsn00lp ttf-arphic-ukai ttf-wqy-microhei ttf-wqy-zenhei
   - sudo apt-get install texlive-xetex texlive-latex-recommended texlive-latex-extra
   - gem install mkbok
 
 rvm:
   - 1.9.3
-  - 1.8.7
-script: which mkbok ; mkbok --lang zh --build pdf
+script: 
+  - mkbok -v ; mkbok
+  
+after_script:
+  - ls -al
+  - chmod +x upload.sh
+  - ./upload.sh
+
+branches:
+  only:
+    - master
+
+
