@@ -1,3 +1,4 @@
+#!/bin/bash
 ls -al *.pdf
 pdfv1=`git config remote.origin.url`
 pdfv2=${pdfv1#*github.com/}

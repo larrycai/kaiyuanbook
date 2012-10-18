@@ -17,8 +17,8 @@ script:
   - ./mkbok
   
 after_script:
-  - ls -al
   - chmod +x upload.sh
+  - ls -al
   - ./upload.sh
 
 branches:
