@@ -15,9 +15,10 @@ script:
 #  - mkbok -v ; mkbok
   - chmod +x mkbok
   - ./mkbok
-  
+
 after_script:
   - chmod +x upload.sh
+  - which bash
   - ls -al
   - ./upload.sh
 
