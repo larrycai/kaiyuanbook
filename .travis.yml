@@ -19,7 +19,7 @@ script:
 after_script:
   - ls -al
   - chmod +x upload.sh
-#  - ./upload.sh
+  - ./upload.sh
 
 branches:
   only:
