@@ -69,6 +69,17 @@ Pandoc软件会把Markdown文件转换成Latex格式，然后套上上面的模�
 ### 代码 ###
 基本的Markdown用空四格的方式，不支持代码高亮显示。
 
+	def main()
+    	options = {
+        	"build"=> "pdf",
+	        "lang" => "zh",
+	        "config"        => "latex/config.yml",
+	        "template"      => "latex/template.tex",
+	        "chapter-files" => "*/*.markdown",
+	        "appendix-files"=> "*appendix/*.markdown",
+	        "jeykll"        => false
+	    }
+
 我建议使用Pandoc扩展Markdown，它在生成的Epub和Html中支持代码高亮显示（还没搞定）
 
 ## 中文字体 ##

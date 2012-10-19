@@ -197,10 +197,19 @@ def post_pandoc(string, config, lang, chapter=true)
 
 		# Ensure monospaced stuff is in a smaller font
 		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
-		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
+		#s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
 
 		# Shaded verbatim block
-		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'
+		#s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'
+        #s /\t/m, '    '
+
+        # is using fancyvrb
+        s /\\begin\{verbatim\}/,'\\begin{Verbatim}[tabsize=4,formatcom=\color{colorchapter},frame=lines]'
+        s /\\end\{verbatim\}/,'\\end{Verbatim}'
+
+        # try moreverb
+        #s /\\begin\{verbatim\}/,'\\begin{verbatimtab}[4]'
+        #s /\\end\{verbatim\}/,'\\end{verbatimtab}'
 		
         if lang=="zh" 
             # http://www.devdaily.com/blog/post/latex/control-line-spacing-in-itemize-enumerate-tags
