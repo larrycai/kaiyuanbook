@@ -1,6 +1,8 @@
 kaiyuanbook.*
 *.pdf
 *.swp
+*.aux
+*.log
 latex/*
 !latex/makepdf
 !latex/README
